@@ -1,0 +1,15 @@
+extends ../layouts/main
+
+block content
+    h1 Login
+    
+    form(method="POST", action="/auth/login")
+        .form-group
+            label.title-login(for='username') Username
+            input#username.form-control(type='text', value=values ? values.username : '', name="username", placeholder='Enter username', required)
+            span.error-message= errors ? errors[0].userError : ''
+        .form-group
+            label.title-login(for='password') Password
+            input#password.form-control(type='password', value=values ? values.password : '', name="password", placeholder='Enter password', required)
+            span.error-message= errors ? errors[0].passError : ''
+        button.btn.btn-primary(type='submit') Login

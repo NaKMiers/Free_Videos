@@ -1,8 +1,56 @@
-h1 {
-  color: #f44336; }
+h1, h2 {
+  color: #f44336;
+  margin-top: 16px;
+  text-align: center;
+}
 
 .thumbnail-card {
   padding-top: 56.25%;
   background-repeat: no-repeat;
   background-size: cover;
-  background-position: center; }
+  background-position: center;
+}
+
+.card-title {
+  display: -webkit-box;
+  max-height: 3.2rem;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  -webkit-line-clamp: 2;
+  line-height: 1.6rem;
+}
+
+.card-description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  -webkit-line-clamp: 4;
+  line-height: 1.4rem;
+}
+
+.video-container {
+  position: relative;
+  padding-top: 56.25%;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.title-login {
+  font-size: 1.3em;
+}
+
+.error-message {
+  color: #f44336;
+}
+
+/*# sourceMappingURL=app.css.map */

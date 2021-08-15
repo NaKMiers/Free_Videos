@@ -1,0 +1,9 @@
+extends layouts/main
+
+block content
+    if video
+        h2.text-center.mt-4= video.title 
+        .video-container
+            iframe(width="560", height="315", src='https://www.youtube.com/embed/' + video.videoId, title="YouTube video player", frameborder="0", allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture", allowfullscreen)
+        h5.mt-4= video.description
+            
