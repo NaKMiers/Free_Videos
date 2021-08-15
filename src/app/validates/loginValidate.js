@@ -8,14 +8,12 @@ async function LoginValidate(req, res, next) {
     let values = req.body
     let errors = []
 
-    var isValidLogin = false
-
     var users = await User.find({})
     let user = users.find(user => user.username == username)
     if (user) {
         if (user.password == password) {
-            res.redirect('/')
-            isValidLogin = true
+            res.cookie('userId', user._id)
+            res.redirect('/my-videos')
         } else {
             errors.push({ passError: '❌ Password is invalid ❌' })
             res.render('auth/login', { errors, values })
@@ -24,8 +22,6 @@ async function LoginValidate(req, res, next) {
         errors.push({ userError: '❌ User is not exits ❌' })
         res.render('auth/login', { errors, values })
     }
-    
-    return [ isValidLogin, user ]
 }
 
 module.exports = LoginValidate

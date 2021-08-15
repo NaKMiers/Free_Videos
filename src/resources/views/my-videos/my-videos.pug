@@ -1,0 +1,17 @@
+extends ../layouts/main
+
+block content
+    .row
+        -var index = 0
+        each myVideo in user.myVideos
+            
+            .col-sm-6.col-lg-3.mt-4
+                .card(style="height: 100%")
+                    a.thumbnail-card(href='/view/' + myVideo._id, style="background-image: url('https://img.youtube.com/vi/" + myVideo.videoId + "/sddefault.jpg')")
+                    .card-body
+                        a(href='/view/' + myVideo._id)
+                            h5.card-title(title= myVideo.title)= myVideo.title
+                        p.card-description.card-text(title= myVideo.description)= myVideo.description
+                        a.btn.btn-primary.float-right(href='/my-videos/remove/' + index) Remove
+                        a.btn.btn-primary.text-light(href='/view/' + myVideo._id)= ++index
+    

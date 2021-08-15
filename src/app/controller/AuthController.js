@@ -9,10 +9,7 @@ class AuthController {
 
     // [POST] /auth/login
     login = async function (req, res, next) {
-        let [ isValidLogin, user ] = await loginValidator(req, res, next)
-        if (isValidLogin) {
-            res.cookie('userId', user._id)
-        }
+        loginValidator(req, res, next)
     }
 }
 
