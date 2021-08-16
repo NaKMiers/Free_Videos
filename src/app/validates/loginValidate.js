@@ -2,10 +2,11 @@ const User = require('../models/userModel')
 const md5 = require('md5')
 
 async function LoginValidate(req, res, next) {
-    let username = req.body.username
-    let password = md5(req.body.password)
-    
     let values = req.body
+
+    let username = values.username
+    let password = md5(values.password)
+    
     let errors = []
 
     var users = await User.find({})

@@ -24,6 +24,8 @@ body
                         a.nav-link(href='/auth/login') Login
                     li.nav-item
                         a.nav-link(href='/auth/log-out')= user ? 'Log out' : ''
+                    li.nav-item
+                        a.nav-link(href='/admin') Admin
 
     .container
         block content
