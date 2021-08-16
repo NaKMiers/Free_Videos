@@ -5,7 +5,7 @@
     "main": "./src/index.js",
     "scripts": {
         "start": "nodemon --inspect ./src/index.js",
-        "watch": "node-sass --watch ./src/resources/scss/ --output src/public/css/",
+        "watch": "sass src/resources/scss/app.scss src/public/css/app.css --watch",
         "nice": "prettier --single-quote --trailing-comma all --semi false --tab-width 4 --write ./**/*.{js,json,scss}",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -17,11 +17,12 @@
         "dotenv": "^10.0.0",
         "express": "^4.17.1",
         "md5": "^2.3.0",
+        "method-override": "^3.0.0",
         "mongoose": "^5.13.7",
+        "multer": "^1.4.3",
         "pug": "^3.0.2"
     },
     "devDependencies": {
-        "node-sass": "^6.0.1",
         "nodemon": "^2.0.12",
         "prettier": "^2.3.2"
     }

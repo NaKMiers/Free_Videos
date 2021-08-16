@@ -1,0 +1,26 @@
+extends ../layouts/main
+
+block content
+    h1 Manage Users
+    a(href="/admin") Admin
+    table.mt-4.table
+        thead
+            tr
+            th(scope='col') ID
+            th(scope='col') Avatar
+            th(scope='col') Name
+            th(scope='col') Username
+            th(scope='col', colspan="2") Email
+        tbody
+            each user in users
+                tr
+                    td= user._id
+                    td
+                        a(href="")
+                            img.avatar(src= user.avatar)
+                    td= user.name
+                    td= user.username
+                    td= user.email
+                    td
+                        <a href="" class="btn btn-link">Edit</a>
+                        <a href="" class="btn btn-link">Delete</a>

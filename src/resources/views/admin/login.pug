@@ -1,0 +1,12 @@
+extends ../layouts/main
+
+block content
+    h1 Admin Login
+    form(method="POST")
+        .form-group
+            label.title-login(for='username') Username
+            input#username.form-control(type='text', value=values ? values.username : '', name="username", placeholder='Enter username', required)
+        .form-group
+            label.title-login(for='password') Password
+            input#password.form-control(type='password', value=values ? values.password : '', name="password", placeholder='Enter password', required)
+        button.btn.btn-primary(type='submit') Login

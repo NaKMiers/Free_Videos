@@ -7,6 +7,7 @@ const UserSchema = new Schema({
     password: String,
     email: String,
     myVideos: Array,
+    avatar: String,
 }, {
     timestamp: true
 })

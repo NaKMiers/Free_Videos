@@ -48,8 +48,8 @@ async function RegistryValidate(req, res, next) {
             username: values.username.trim(),
             email: values.email.trim(),
             password: md5(values.password),
+            avatar: '/' + req.file.path.split('\\').splice(2).join('\\')
         }
-
         return newUserData
     }
 }

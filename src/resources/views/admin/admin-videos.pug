@@ -1,0 +1,42 @@
+extends ../layouts/main
+
+block content
+    h1 Manage Videos
+    a(href="/admin") Admin
+    table.mt-4.table
+        thead
+            tr
+            th(scope='col') ID
+            th(scope='col') Thumbnail
+            th(scope='col') Title
+            th(scope='col') Description
+            th(scope='col', colspan="2") Video ID
+        tbody
+            each video in videos
+                tr
+                    td= video._id
+                    td
+                        .thumbnail-img
+                    td
+                        .card-title(title= video.title)= video.title
+                    td
+                        .card-description(title= video.description)= video.description
+                    td= video.videoId
+                    td
+                        a(href='/admin/edit/' + video._id, class="btn btn-link") Edit
+                        button.btn.btn-link(data-toggle="modal", data-target="#deleteModal") Delete
+                        
+
+    //- Modal
+    #deleteModal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#exampleModalLabel.modal-title Delete Video
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') &times;
+                .modal-body
+                    | Do you still want to delete this video?
+                .modal-footer
+                    button.btn.btn-info(type='button', data-dismiss='modal') Cancel
+                    button.btn.btn-danger(type='button') Delete

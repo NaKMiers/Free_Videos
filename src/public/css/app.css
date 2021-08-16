@@ -4,6 +4,23 @@ h1, h2 {
   text-align: center;
 }
 
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.thumbnail-img {
+  width: 200px;
+  height: 112.5px;
+  border-radius: 8px;
+  background-color: #333;
+  background-image: url(https://images.unsplash.com/photo-1580757468214-c73f7062a5cb?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8MTYlM0E5fGVufDB8fDB8fA%3D%3D&ixlib=rb-1.2.1&w=1000&q=80);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .thumbnail-card {
   padding-top: 56.25%;
   background-repeat: no-repeat;

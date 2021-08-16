@@ -10,7 +10,9 @@ head
 body
     nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         .container
-            //- img.avatar(src=)
+            if user
+                a.navbar-brand(href='/')
+                    img.avatar(src= user.avatar)
             a.navbar-brand(href='/')= user ? user.name : 'User'
             button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
                 span.navbar-toggler-icon
