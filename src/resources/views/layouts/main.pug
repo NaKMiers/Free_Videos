@@ -10,6 +10,7 @@ head
 body
     nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         .container
+            //- img.avatar(src=)
             a.navbar-brand(href='/')= user ? user.name : 'User'
             button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
                 span.navbar-toggler-icon
@@ -19,6 +20,8 @@ body
                         a.nav-link(href='/my-videos') My Videos
                     li.nav-item
                         a.nav-link(href='/auth/login') Login
+                    li.nav-item
+                        a.nav-link(href='/auth/log-out')= user ? 'Log out' : ''
 
     .container
         block content

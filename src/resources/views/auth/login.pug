@@ -2,8 +2,8 @@ extends ../layouts/main
 
 block content
     h1 Login
-    
-    form(method="POST", action="/auth/login")
+    a.float-right.mr-4(href="/auth/registry") Registry
+    form(method="POST")
         .form-group
             label.title-login(for='username') Username
             input#username.form-control(type='text', value=values ? values.username : '', name="username", placeholder='Enter username', required)

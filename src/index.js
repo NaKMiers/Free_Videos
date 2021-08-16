@@ -24,7 +24,7 @@ app.set('views', path.join(__dirname, 'resources', 'views'))
 // body-parser
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
-app.use(cookieParser())
+app.use(cookieParser('lslkjfljlk ldf oijewjeoifjowjsndls f'))
 
 // routes
 route(app)

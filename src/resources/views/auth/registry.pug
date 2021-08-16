@@ -1,0 +1,26 @@
+extends ../layouts/main
+
+block content
+    h1 Registry
+    a.float-right.mr-4(href="/auth/login") login
+    form(method="POST")
+        .form-group
+            label.title-login(for='name') Name
+            input#name.form-control(type='text', value=values ? values.name : '', name="name", placeholder='Enter name', required)
+        .form-group
+            label.title-login(for='username') Username
+            input#username.form-control(type='text', value=values ? values.username : '', name="username", placeholder='Enter username', required)
+            span.error-message= errors ? errors[errorsIndex[0]] : ''
+        .form-group
+            label.title-login(for='email') Email
+            input#email.form-control(type='email', value=values ? values.email : '', name="email", placeholder='Enter email', required)
+            span.error-message= errors ? errors[errorsIndex[1]] : ''
+        .form-group
+            label.title-login(for='password') Password
+            input#password.form-control(type='password', value=values ? values.password : '', name="password", placeholder='Enter password', required)
+            span.error-message= errors ? errors[errorsIndex[2]] : ''
+        .form-group
+            label.title-login(for='retype-password') Retype Password
+            input#retype-password.form-control(type='password', value=values ? values.retypePassword : '', name="retypePassword", placeholder='Enter password again', required)
+            span.error-message= errors ? errors[errorsIndex[3]] : ''
+        button.btn.btn-primary(type='submit') Registry

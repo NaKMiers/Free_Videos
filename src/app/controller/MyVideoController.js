@@ -37,23 +37,6 @@ class MyVideoController {
 
         User.updateOne({ _id: user._id }, userData[0])
             .then(() => res.redirect('back'))
-            // .then(myVideos => {
-            //     User.updateOne({ _id: user._id }, myVideos[0])
-            //         .then(() => res.redirect('back'))
-            // })
-        // let videoDataObject = {
-        //     _id: videoData[0]._id,
-        //     title: videoData[0].title,
-        //     description: videoData[0].description,
-        //     videoId: videoData[0].videoId,
-        // }
-        
-        // let newUpdateUser = await User.find({ _id: user._id })
-        // newUpdateUser[0].myVideos.push(videoDataObject)
-
-        // User.updateOne({ _id: user._id }, newUpdateUser[0])
-        //     .then(() => res.redirect('back'))
-        res.redirect('back')
     }
 }
 

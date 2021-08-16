@@ -12,7 +12,9 @@ async function LoginValidate(req, res, next) {
     let user = users.find(user => user.username == username)
     if (user) {
         if (user.password == password) {
-            res.cookie('userId', user._id)
+            res.cookie('userId', user._id, {
+                signed: true,
+            })
             res.redirect('/my-videos')
         } else {
             errors.push({ passError: '❌ Password is invalid ❌' })

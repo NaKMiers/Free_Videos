@@ -8,9 +8,9 @@ block content
             each video in videos
                 .col-sm-6.col-lg-3.mt-4
                     .card(style="height: 100%")
-                        a.thumbnail-card(href='/view/' + video._id, style="background-image: url('https://img.youtube.com/vi/" + video.videoId + "/sddefault.jpg')")
+                        a.thumbnail-card(href='/view/' + video.title + '/' + video._id, style="background-image: url('https://img.youtube.com/vi/" + video.videoId + "/sddefault.jpg')")
                         .card-body
-                            a(href='/view/' + video._id)
+                            a(href='/view/' + video.title + '/' + video._id)
                                 h5.card-title(title= video.title)= video.title
                             p.card-description.card-text(title= video.description)= video.description
                             a.btn.btn-primary(href='/my-videos/add/' + video._id) Add to My Videos
