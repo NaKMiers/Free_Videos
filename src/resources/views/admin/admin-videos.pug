@@ -1,18 +1,31 @@
 extends ../layouts/main
 
 block content
+    form(name="container-form", action="/admin/videos/handle-form-action")
+    
     h1 Manage Videos
         a.btn.btn-primary.ml-2(href="/admin/videos/add") New
-    
     a(href="/admin/trash-videos") Video Deleted (#{deletedCount})
+
+    .mt-4.d-flex.align-items-center
+        select.form-control.form-control-sm.checkbox-select-all-options(name='action', required='')
+            option(value='') -- Select Action --
+            option(value='delete') Delete
+
+        button.btn.btn-primary.btn-sm.check-all-submit-btn(disabled='') Apply
+
     table.mt-4.table
         thead
             tr
-            th(scope='col') ID
-            th(scope='col') Thumbnail
-            th(scope='col') Title
-            th(scope='col') Description
-            th(scope='col', colspan="2") Video ID
+                th
+                    .form-check
+                        input#checkbox-all.form-check-input(type='checkbox', value='')
+                        label.form-check-label(for='checkbox-all', style="cursor: pointer")
+                th(scope='col') ID
+                th(scope='col') Thumbnail
+                th(scope='col') Title
+                th(scope='col') Description
+                th(scope='col', colspan="2") Video ID
         tbody
             - var count = 0
             each video in videos
@@ -20,14 +33,15 @@ block content
                     if indexEdit == count 
                         - ++count
                         form(method="POST", action='/admin/save/' + video._id + '?_method=PUT')
-                            td#editing= video._id
+                            td
+                            td.td-id#editing= video._id
                             td
                                 .thumbnail-img(style="background-image: url('https://img.youtube.com/vi/" + video.videoId + "/sddefault.jpg')")
                             td
-                                textarea.form-control(style="width: 130px; height: 112.5px", name="title")
+                                textarea.form-control(style="width: 100%; height: 112.5px", name="title")
                                     = video.title
                             td
-                                textarea.form-control(style="width: 253px; height: 112.5px", name="description")
+                                textarea.form-control(style="width: 100%; height: 112.5px", name="description")
                                     = video.description
                             td
                                 input.form-control(value= video.videoId, style="width: 101px", name="videoId")
@@ -37,9 +51,11 @@ block content
                                 button.btn.btn-link(data-toggle="modal", data-target="#deleteModal") Delete
                     else
                         - ++count
-                        td= video._id
                         td
-                            a(href='/view/' + video.title + '/' + video._id)
+                            input(type="checkbox", name="videoIds[]")
+                        td.td-id= video._id
+                        td
+                            a(href='/view/' + video.slug)
                                 .thumbnail-img(style="background-image: url('https://img.youtube.com/vi/" + video.videoId + "/sddefault.jpg')")
                         td
                             .card-title(title= video.title, style="width: 130px")= video.title
@@ -67,4 +83,4 @@ block content
     //- hidden form
     form(name="delete-video-form", method="POST")
 
-    script(src="/js/soft-delete-videos.js")
+    script(src="/js/admin-videos.js")

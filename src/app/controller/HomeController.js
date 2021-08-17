@@ -6,9 +6,9 @@ class HomeController {
             .then(videos => res.render('home', { videos }))
     }
 
-    // [GET] /view/:id
+    // [GET] /view/:slug
     view(req, res, next) {
-        Video.findOne({ _id: req.params.id })
+        Video.findOne({ slug: req.params.slug })
             .then(video => res.render('view', { video }))
     }
 }

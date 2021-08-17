@@ -9,6 +9,15 @@ class MyVideoController {
             .then(user => res.render('my-videos/my-videos', { user: user[0] }))
     }
 
+    // [GET] /my-videos/view/:slug
+    view(req, res, next) {
+        let user = res.locals.user
+        let myVideos = user.myVideos
+        let video = myVideos.find(video => video.slug == req.params.slug)
+        
+        res.render('my-videos/my-view', { video })
+    }
+
     // [PUT] /my-videos/add/:videoId
     addVideo = async function(req, res, next) {
         let user = res.locals.user
@@ -18,6 +27,7 @@ class MyVideoController {
             title: videoData[0].title,
             description: videoData[0].description,
             videoId: videoData[0].videoId,
+            slug: videoData[0].slug,
         }
         
         let newUpdateUser = await User.find({ _id: user._id })

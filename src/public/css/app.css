@@ -11,6 +11,7 @@ h1, h2 {
 .avatar {
   width: 32px;
   height: 32px;
+  margin-right: -10px;
   border-radius: 50%;
 }
 
@@ -71,6 +72,25 @@ h1, h2 {
 
 .error-message {
   color: #f44336;
+}
+
+#checkbox-all {
+  margin-top: 6.9px;
+}
+
+.checkbox-select-all-options {
+  width: 150px;
+  margin: 0 16px;
+}
+
+input[type=checkbox] {
+  cursor: pointer;
+}
+
+.td-id {
+  width: 130px;
+  display: -webkit-box;
+  word-break: break-all;
 }
 
 /*# sourceMappingURL=app.css.map */
