@@ -13,11 +13,12 @@ class AuthController {
         User.find({})
             .then(users => res.render('admin/admin-users', { users }))
     }
-
+    
     // [GET] /admin/videos
     showVideos(req, res, next) {
-        Video.find({})
-            .then(videos => res.render('admin/admin-videos', { videos }))
+        Promise.all([Video.find({}), Video.countDocumentsDeleted()])
+            .then(([videos, deletedCount]) => res.render('admin/admin-videos', { videos, deletedCount }))
+            .catch(next)
     }
 
     // [GET] /admin/videos/add
@@ -63,7 +64,28 @@ class AuthController {
 
     // [DELETE] /admin/delete/:videoId
     deleteVideoSoft(req, res, next) {
+        Video.delete({ _id: req.params.videoId })
+            .then(() => res.redirect('back'))
+            .catch(next)
+    }
+
+    // [DELETE] /admin/delete/:videoId/force
+    deleteVideoForce(req, res, next) {
         Video.deleteOne({ _id: req.params.videoId })
+            .then(() => res.redirect('back'))
+            .catch(next)
+    }
+
+    // [GET] /admin/trash-videos
+    showTrashVideos(req, res, next) {
+        Video.findDeleted({})
+            .then(videos => res.render('admin/admin-trash-videos', { videos }))
+            .catch(next)
+    }
+
+    // [PATCH] /admin/trash-videos/:videoId
+    restoreVideo(req, res, next) {
+        Video.restore({ _id: req.params.videoId })
             .then(() => res.redirect('back'))
             .catch(next)
     }
@@ -75,14 +97,24 @@ class AuthController {
 
     // [POST] /admin/login
     login = async function (req, res, next) {
-        res.send('<h1>Nguyen Anh Khoa</h1>')
+        let values = req.body
+        let errors = []
+        
+        if (values.adminUsername !== process.env.ADMIN_USERNAME) {
+            errors.push('Admin username is not exist.')
+            errors.push('')
+            res.render('admin/login', { errors, values })
+        } else if(values.adminPassword !== process.env.ADMIN_PASSWORD) {
+            errors.push('')
+            errors.push('Wrong password, please re-enter.')
+            res.render('admin/login', { errors, values })
+        } else {
+            res.cookie('adminAuthorize', true, {
+                signed: true,
+            })
+            res.redirect('/admin')
+        }
     }
-
-    // // [GET] /auth/log-out
-    // logOut = async function (req, res, next) {
-    //     res.clearCookie('userId')        
-    //     res.redirect('/')
-    // }
 }
 
 module.exports = new AuthController

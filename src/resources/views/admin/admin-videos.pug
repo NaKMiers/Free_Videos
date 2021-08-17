@@ -4,7 +4,7 @@ block content
     h1 Manage Videos
         a.btn.btn-primary.ml-2(href="/admin/videos/add") New
     
-    a(href="/admin") Admin
+    a(href="/admin/trash-videos") Video Deleted (#{deletedCount})
     table.mt-4.table
         thead
             tr
@@ -67,4 +67,4 @@ block content
     //- hidden form
     form(name="delete-video-form", method="POST")
 
-    script(src="/js/main.js")
+    script(src="/js/soft-delete-videos.js")

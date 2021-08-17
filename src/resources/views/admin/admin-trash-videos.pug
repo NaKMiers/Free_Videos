@@ -1,0 +1,50 @@
+extends ../layouts/main
+
+block content
+    h1 Trash
+    
+    a(href="/admin/videos") Manage Videos
+    table.mt-4.table
+        thead
+            tr
+            th(scope='col') ID
+            th(scope='col') Thumbnail
+            th(scope='col') Title
+            th(scope='col') Description
+            th(scope='col', colspan="2") Video ID
+        tbody
+            if videos
+                each video in videos
+                    tr
+                        td= video._id
+                        td
+                            a(href='/view/' + video.title + '/' + video._id)
+                                .thumbnail-img(style="background-image: url('https://img.youtube.com/vi/" + video.videoId + "/sddefault.jpg')")
+                        td
+                            .card-title(title= video.title, style="width: 130px")= video.title
+                        td
+                            .card-description(title= video.description, style="width: 253px")= video.description
+                        td= video.videoId
+                        td
+                            button.btn.btn-link.btn-restore(data-id= video._id) Restore
+                            button.btn.btn-link(data-toggle="modal", data-id= video._id, data-target="#delete-video-modal") Delete
+
+    //- confirm delete performance video
+    #delete-video-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#exampleModalLabel.modal-title Delete Performance
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') &times;
+                .modal-body
+                    | This action does not restore. Do you still want to delete this video?
+                .modal-footer
+                    button.btn.btn-info(type='button', data-dismiss='modal') Cancel
+                    button#btn-delete-video.btn.btn-danger(type='button') Delete
+
+    //- hidden form
+    form(name="delete-video-form", method="POST")
+    form(name="restore-video-form", method="POST")
+
+    script(src="/js/trash-videos.js")
