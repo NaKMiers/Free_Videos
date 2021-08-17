@@ -49,19 +49,6 @@ class AuthController {
         res.render('admin/admin-videos', { video: video[0], videos, indexEdit })
     }
 
-    // [PUT] /admin/save/:videoId
-    saveEditVideo(req, res, next) {
-        let values = req.body
-        let title = values.title.trim()
-        let description = values.description.trim()
-        let videoId = values.videoId.trim()
-        
-        let afterEditObjectData = { title, description, videoId}
-        Video.updateOne({ _id: req.params.videoId }, afterEditObjectData)
-            .then(() => res.redirect('/admin/videos'))
-            .catch(next)
-    }
-
     // [DELETE] /admin/delete/:videoId
     deleteVideoSoft(req, res, next) {
         Video.delete({ _id: req.params.videoId })
@@ -88,6 +75,49 @@ class AuthController {
         Video.restore({ _id: req.params.videoId })
             .then(() => res.redirect('back'))
             .catch(next)
+    }
+
+    // [POST] /admin/videos/handle-form-action
+    handleFormAction(req, res, next) {
+        switch (req.body.action) {
+            case 'delete':
+                Video.delete({ _id: { $in: req.body.videoIds } })
+                    .then(() => res.redirect('back'))
+                    .catch(next)
+                break
+            case 'save':
+                let values = req.body
+                let title = values.title.trim()
+                let description = values.description.trim()
+                let videoId = values.videoId.trim()
+                
+                let afterEditObjectData = { title, description, videoId}
+
+                Video.updateOne({ _id: values.idEdit }, afterEditObjectData)
+                    .then(() => res.redirect('/admin/videos'))
+                    .catch(next)
+                break
+            default:
+                res.send('<h1 style="color: #f44335; text-align: center">Action is invalid</h1>')                
+        }
+    }
+
+    // [POST] /admin/videos/handle-form-action-trash
+    handleFormActionTrash(req, res, next) {
+        switch (req.body.action) {
+            case 'restore':
+                Video.restore({ _id: { $in: req.body.videoIds } })
+                    .then(() => res.redirect('back'))
+                    .catch(next)
+                break
+            case 'delete':
+                Video.deleteMany({ _id: { $in: req.body.videoIds } })
+                    .then(() => res.redirect('back'))
+                    .catch(next)
+                break
+            default:
+                res.send('<h1 style="color: #f44335; text-align: center">Action is invalid</h1>')                
+        }
     }
 
     // [GET] /admin/login

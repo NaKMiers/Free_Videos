@@ -20,7 +20,6 @@ router.get('/videos/add', adminMiddleware.requireAdminAuth, adminController.show
 router.post('/videos/add', adminMiddleware.requireAdminAuth, adminController.addVideo)
 // edit video
 router.get('/edit/:videoId', adminMiddleware.requireAdminAuth, adminController.showEditVideo)
-router.put('/save/:videoId', adminMiddleware.requireAdminAuth, adminController.saveEditVideo)
 // soft delete video
 router.delete('/delete/:videoId', adminMiddleware.requireAdminAuth, adminController.deleteVideoSoft)
 
@@ -30,6 +29,10 @@ router.get('/trash-videos', adminMiddleware.requireAdminAuth, adminController.sh
 router.delete('/trash-videos/delete/:videoId/force', adminMiddleware.requireAdminAuth, adminController.deleteVideoForce)
 // restore video from trash
 router.patch('/trash-videos/restore/:videoId', adminMiddleware.requireAdminAuth, adminController.restoreVideo)
+// videos handle-form-action
+router.post('/videos/handle-form-action', adminMiddleware.requireAdminAuth, adminController.handleFormAction)
+// videos handle-form-action-trash
+router.post('/videos/handle-form-action-trash', adminMiddleware.requireAdminAuth, adminController.handleFormActionTrash)
 
 // admin login
 router.get('/login', adminController.showLogin)

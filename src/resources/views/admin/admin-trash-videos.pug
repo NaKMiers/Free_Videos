@@ -1,33 +1,48 @@
 extends ../layouts/main
 
 block content
-    h1 Trash
-    
-    a(href="/admin/videos") Manage Videos
-    table.mt-4.table
-        thead
-            tr
-            th(scope='col') ID
-            th(scope='col') Thumbnail
-            th(scope='col') Title
-            th(scope='col') Description
-            th(scope='col', colspan="2") Video ID
-        tbody
-            if videos
-                each video in videos
-                    tr
-                        td= video._id
-                        td
-                            a(href='/view/' + video.title + '/' + video._id)
+    form(name="container-form", method="POST", action="/admin/videos/handle-form-action-trash")
+        h1 Trash
+        
+        a(href="/admin/videos") Manage Videos
+
+        .mt-4.d-flex.align-items-center
+            select.form-control.form-control-sm.checkbox-select-all-options(name='action', required='')
+                option(value='') -- Select Action --
+                option(value='restore') Restore
+                option(value='delete') Delete
+
+            button.btn.btn-primary.btn-sm.check-all-submit-btn(disabled='') Apply
+            
+        table.mt-4.table
+            thead
+                tr
+                    th
+                        .form-check
+                            input#checkbox-all.form-check-input(type='checkbox', value='')
+                            label.form-check-label(for='checkbox-all', style="cursor: pointer")
+                    th(scope='col') ID
+                    th(scope='col') Thumbnail
+                    th(scope='col') Title
+                    th(scope='col') Description
+                    th(scope='col', colspan="2") Video ID
+            tbody
+                if videos
+                    each video in videos
+                        tr
+                            td
+                                input(type="checkbox", name="videoIds[]", value= video._id)
+                            td.td-id= video._id
+                            td
                                 .thumbnail-img(style="background-image: url('https://img.youtube.com/vi/" + video.videoId + "/sddefault.jpg')")
-                        td
-                            .card-title(title= video.title, style="width: 130px")= video.title
-                        td
-                            .card-description(title= video.description, style="width: 253px")= video.description
-                        td= video.videoId
-                        td
-                            button.btn.btn-link.btn-restore(data-id= video._id) Restore
-                            button.btn.btn-link(data-toggle="modal", data-id= video._id, data-target="#delete-video-modal") Delete
+                            td
+                                .card-title(title= video.title, style="width: 130px")= video.title
+                            td
+                                .card-description(title= video.description, style="width: 253px")= video.description
+                            td= video.videoId
+                            td
+                                .btn.btn-link.btn-restore(data-id= video._id) Restore
+                                .btn.btn-link(data-toggle="modal", data-id= video._id, data-target="#delete-video-modal") Delete
 
     //- confirm delete performance video
     #delete-video-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')

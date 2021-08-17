@@ -41,4 +41,6 @@ document.addEventListener('DOMContentLoaded', function() {
             checkAllSubmitBtn.attr('disabled', true)
         }
     }
+
 })
+

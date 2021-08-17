@@ -1,70 +1,73 @@
 extends ../layouts/main
 
 block content
-    form(name="container-form", action="/admin/videos/handle-form-action")
-    
-    h1 Manage Videos
-        a.btn.btn-primary.ml-2(href="/admin/videos/add") New
-    a(href="/admin/trash-videos") Video Deleted (#{deletedCount})
+    form(name="container-form", method="POST", action="/admin/videos/handle-form-action")
+        h1 Manage Videos
+            a.btn.btn-primary.ml-2(href="/admin/videos/add") New
+            
+        a(href="/admin/trash-videos") Trash (#{deletedCount})
+        
+        if !indexEdit && indexEdit != 0
+            .mt-4.d-flex.align-items-center
+                select.form-control.form-control-sm.checkbox-select-all-options(name='action', required)
+                    option(value='') -- Select Action --
+                    option(value='delete') Delete
 
-    .mt-4.d-flex.align-items-center
-        select.form-control.form-control-sm.checkbox-select-all-options(name='action', required='')
-            option(value='') -- Select Action --
-            option(value='delete') Delete
+                button.btn.btn-primary.btn-sm.check-all-submit-btn(disabled='') Apply
+        else
 
-        button.btn.btn-primary.btn-sm.check-all-submit-btn(disabled='') Apply
-
-    table.mt-4.table
-        thead
-            tr
-                th
-                    .form-check
-                        input#checkbox-all.form-check-input(type='checkbox', value='')
-                        label.form-check-label(for='checkbox-all', style="cursor: pointer")
-                th(scope='col') ID
-                th(scope='col') Thumbnail
-                th(scope='col') Title
-                th(scope='col') Description
-                th(scope='col', colspan="2") Video ID
-        tbody
-            - var count = 0
-            each video in videos
+        table.mt-4.table
+            thead
                 tr
-                    if indexEdit == count 
-                        - ++count
-                        form(method="POST", action='/admin/save/' + video._id + '?_method=PUT')
+                    th
+                        .form-check
+                            input#checkbox-all.form-check-input(type='checkbox', value='')
+                            label.form-check-label(for='checkbox-all', style="cursor: pointer")
+                    th(scope='col') ID
+                    th(scope='col') Thumbnail
+                    th(scope='col') Title
+                    th(scope='col') Description
+                    th(scope='col', colspan="2") Video ID
+            tbody
+                - var count = 0
+                each video in videos
+                    tr
+                        if indexEdit == count 
+                            - ++count
+                                input(name='action', value="save", hidden)        
+                                input(name='idEdit', value= video._id, hidden)        
+                                td
+                                td.td-id#editing= video._id
+                                td
+                                    .thumbnail-img(style="background-image: url('https://img.youtube.com/vi/" + video.videoId + "/sddefault.jpg')")
+                                td
+                                    textarea.form-control(style="width: 100%; height: 112.5px", name="title")
+                                        = video.title
+                                td
+                                    textarea.form-control(style="width: 100%; height: 112.5px", name="description")
+                                        = video.description
+                                td
+                                    input.form-control(value= video.videoId, style="width: 101px", name="videoId")
+                                td
+                                    button.btn.btn-success.btn-save-edit Save
+                                    a.btn.btn-danger.mt-2(href='/admin/videos') Cancel
+                                    .btn.btn-link(data-toggle="modal", data-target="#deleteModal") Delete
+                        else
+                            - ++count
                             td
-                            td.td-id#editing= video._id
+                                input(type="checkbox", name="videoIds[]", value= video._id)
+                            td.td-id= video._id
                             td
-                                .thumbnail-img(style="background-image: url('https://img.youtube.com/vi/" + video.videoId + "/sddefault.jpg')")
+                                a(href='/view/' + video.slug)
+                                    .thumbnail-img(style="background-image: url('https://img.youtube.com/vi/" + video.videoId + "/sddefault.jpg')")
                             td
-                                textarea.form-control(style="width: 100%; height: 112.5px", name="title")
-                                    = video.title
+                                .card-title(title= video.title, style="width: 130px")= video.title
                             td
-                                textarea.form-control(style="width: 100%; height: 112.5px", name="description")
-                                    = video.description
+                                .card-description(title= video.description, style="width: 253px")= video.description
+                            td= video.videoId
                             td
-                                input.form-control(value= video.videoId, style="width: 101px", name="videoId")
-                            td
-                                button.btn.btn-success(type="submit") Save
-                                a.btn.btn-danger.mt-2(href='/admin/videos') Cancel
-                                button.btn.btn-link(data-toggle="modal", data-target="#deleteModal") Delete
-                    else
-                        - ++count
-                        td
-                            input(type="checkbox", name="videoIds[]")
-                        td.td-id= video._id
-                        td
-                            a(href='/view/' + video.slug)
-                                .thumbnail-img(style="background-image: url('https://img.youtube.com/vi/" + video.videoId + "/sddefault.jpg')")
-                        td
-                            .card-title(title= video.title, style="width: 130px")= video.title
-                        td
-                            .card-description(title= video.description, style="width: 253px")= video.description
-                        td= video.videoId
-                        td
-                            a(href='/admin/edit/' + video._id + '#editing', class="btn btn-link") Edit
-                            button.btn.btn-link(data-toggle="modal", data-id= video._id, data-target="#delete-video-modal") Delete
+                                a(href='/admin/edit/' + video._id + '#editing', class="btn btn-link") Edit
+                                .btn.btn-link(data-toggle="modal", data-id= video._id, data-target="#delete-video-modal") Delete
 
     //- confirm delete video
     #delete-video-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
