@@ -110,14 +110,22 @@ input[type=checkbox] {
   margin: auto;
   margin-bottom: 32px;
   padding: 8px;
+}
+.profile .avatar-container .avatar-outline {
   outline: thick double #32a1ce;
+  padding: 12px;
 }
 .profile .avatar-container-image {
   width: 100%;
   padding-top: 100%;
+  border: 0px solid #333;
   background-position: center;
   background-size: cover;
   border-radius: 50%;
+}
+.profile .info {
+  padding: 0;
+  padding-left: 16px;
 }
 .profile .info-heading {
   color: #333;
@@ -135,9 +143,18 @@ input[type=checkbox] {
   font-weight: bold;
 }
 .profile .info-my-videos-list {
-  height: 160px;
+  height: 162px;
   overflow: auto;
   list-style-type: "🥢 ";
+}
+
+.new-password-frame,
+.info-avatar {
+  display: none;
+}
+
+.show {
+  display: block;
 }
 
 /*# sourceMappingURL=app.css.map */

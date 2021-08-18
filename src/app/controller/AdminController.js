@@ -27,11 +27,11 @@ class AuthController {
     // [DELETE] /admin/users/delete/:userId/force
     deleteUserForce = async function(req, res, next) {
         let user = await User.find({ _id: req.params.userId})
-        let avatar = user[0].avatar.split('\\')[1]
+        let oldAvatar = user[0].avatar.split('\\')[1]
 
         User.deleteOne({ _id: req.params.userId })
             .then(() => {
-                fs.unlink('src/public/uploads/' + avatar, function (err) {
+                fs.unlink('src/public/uploads/' + oldAvatar, function (err) {
                     if (err) console.log(err)
                 })
                 res.redirect('back')
@@ -46,11 +46,11 @@ class AuthController {
                 let userIds = req.body.userIds
                 userIds.forEach(async function(userId) {
                     let user = await User.find({ _id: userId })
-                    let avatar = user[0].avatar.split('\\')[1]
+                    let oldAvatar = user[0].avatar.split('\\')[1]
 
                     User.deleteOne({ _id: userId })
                         .then(() => {
-                            fs.unlink('src/public/uploads/' + avatar, function (err) {
+                            fs.unlink('src/public/uploads/' + oldAvatar, function (err) {
                                 if (err) console.log(err)
                             })
                         })

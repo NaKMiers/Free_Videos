@@ -7,11 +7,16 @@
         margin: auto;
         margin-bottom: 32px;
         padding: 8px;
-        outline: thick double #32a1ce;
+
+        .avatar-outline {
+            outline: thick double #32a1ce;
+            padding: 12px;
+        }
     
         &-image {
             width: 100%;
             padding-top: 100%;
+            border: 0px solid #333;
             background-position: center;
             background-size: cover;
             border-radius: 50%;
@@ -19,6 +24,8 @@
     }
 
     .info {
+        padding: 0;
+        padding-left: 16px;
 
         &-heading {
             color: #333;
@@ -39,9 +46,18 @@
         }
 
         &-my-videos-list {
-            height: 160px;
+            height: 162px;
             overflow: auto;
             list-style-type: '🥢 ';
         }
     }
+}
+
+.new-password-frame,
+.info-avatar {
+    display: none;
+}
+
+.show {
+    display: block;
 }

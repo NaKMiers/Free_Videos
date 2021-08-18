@@ -12,7 +12,10 @@ body
     nav.navbar.navbar-expand-lg.navbar-dark.bg-dark
         .container
             a.navbar-brand(href='/')
-                img.avatar(src= user ? user.avatar : '/uploads/default-avt')
+                if user
+                    img.avatar(src= user.avatar !== '/' ? user.avatar : '/uploads/default-avt')
+                else
+                    img.avatar(src="/uploads/default-avt")
             a.navbar-brand(href='/')= user ? user.name : 'User'
             button.navbar-toggler(type='button', data-toggle='collapse', data-target='#navbarSupportedContent', aria-controls='navbarSupportedContent', aria-expanded='false', aria-label='Toggle navigation')
                 span.navbar-toggler-icon

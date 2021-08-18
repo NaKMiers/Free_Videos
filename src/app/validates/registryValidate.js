@@ -44,11 +44,11 @@ async function RegistryValidate(req, res, next) {
         res.render('auth/registry', { errors, values, errorsIndex: errorIndexInErrors })
     } else {
         let newUserData = {
-            name: values.name.trim(),
-            username: values.username.trim(),
-            email: values.email.trim(),
-            password: md5(values.password),
-            avatar: '/' + req.file.path.split('\\').splice(2).join('\\')
+            name,
+            username,
+            email,
+            password: md5(password),
+            avatar: '/'
         }
         return newUserData
     }

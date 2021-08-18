@@ -6,7 +6,8 @@ block content
     .profile.row
         -var link = user.avatar.split('\\').join('/')
         .avatar-container.col-sm-7.col-lg-4
-            .avatar-container-image(style='background-image: url(' + link + ')')
+            .avatar-outline
+                .avatar-container-image(style='background-image: url(' + link + ')')
         
         .info.col-sm-12.col-lg-8
             h2.info-heading Information
@@ -26,10 +27,16 @@ block content
                     span.text Password: 
                     span.password ********
                 .info-my-videos.info-sub-content
-                    span.text My Videos(#{user.myVideos.length}):
-                    ul.info-my-videos-list
-                        each video in user.myVideos
-                            li.info-list-item= video.title
+                    - var myVideoCount = user.myVideos.length > 0 ? user.myVideos.length : '-empty-'
+                    span.text My Videos (
+                    span= myVideoCount
+                    span.text ): 
+                    if user.myVideos.length > 0
+                        ul.info-my-videos-list
+                            each video in user.myVideos
+                                li.info-list-item= video.title
+                    else
+                        a(href="/") - Add video
     
     script(src="/js/user-profile.js")
             

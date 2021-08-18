@@ -40,7 +40,7 @@ class AuthController {
                             res.redirect('/')
                         })
                 })
-                .catch(next())
+                .catch(next)
         }
     }
 }

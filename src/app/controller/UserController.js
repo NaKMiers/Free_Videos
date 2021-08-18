@@ -15,21 +15,33 @@ class MyVideoController {
     } 
 
     // [PUT] /user/profile/save
-    saveProfile(req, res, next) {
+    saveProfile = async function(req, res, next) {
         let user = res.locals.user
         let values = req.body
 
-        let avatar = user.avatar.split('\\')[1]
-        fs.unlink('src/public/uploads/' + avatar, function (err) {
-            if (err) console.log(err)
-        })
+        let oldPassword = user.password
+        let password = values.password == '' ? oldPassword : md5(values.password)
+        
+        if (req.file) {
+            // delete old avatar
+            let oldAvatar = user.avatar.split('\\')[1]
+            if (oldAvatar) {
+                fs.unlink('src/public/uploads/' + oldAvatar, function (err) {
+                    if (err) console.log(err)
+                })
+            }
+            
+            var avatar = '/' + req.file.path.split('\\').splice(2).join('\\')
+        } else {
+            var avatar = '/'
+        }
 
         let userDataObject = {
             name: values.name.trim(),
             username: values.username.trim(),
             email: values.email.trim(),
-            password: md5(values.password),
-            avatar: '/' + req.file.path.split('\\').splice(2).join('\\')
+            password,
+            avatar
         }
 
         User.updateOne({ _id: user._id }, userDataObject)
