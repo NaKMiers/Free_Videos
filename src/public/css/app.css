@@ -1,3 +1,4 @@
+@charset "UTF-8";
 html {
   scroll-behavior: smooth;
 }
@@ -98,6 +99,45 @@ input[type=checkbox] {
   width: 130px;
   display: -webkit-box;
   word-break: break-all;
+}
+
+.profile {
+  border: 1px solid #333;
+  margin-top: 16px;
+  padding: 16px;
+}
+.profile .avatar-container {
+  margin: auto;
+  margin-bottom: 32px;
+  padding: 8px;
+  outline: thick double #32a1ce;
+}
+.profile .avatar-container-image {
+  width: 100%;
+  padding-top: 100%;
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+}
+.profile .info-heading {
+  color: #333;
+  margin: 0;
+  font-size: 28px;
+}
+.profile .info-content {
+  padding: 0 16px;
+  font-size: 18px;
+}
+.profile .info-sub-content {
+  margin: 6px 0;
+}
+.profile .info-sub-content span.text {
+  font-weight: bold;
+}
+.profile .info-my-videos-list {
+  height: 160px;
+  overflow: auto;
+  list-style-type: "🥢 ";
 }
 
 /*# sourceMappingURL=app.css.map */

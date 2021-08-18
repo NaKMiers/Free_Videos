@@ -1,0 +1,47 @@
+.profile {
+    border: 1px solid #333;
+    margin-top: 16px;
+    padding: 16px;
+
+    .avatar-container {
+        margin: auto;
+        margin-bottom: 32px;
+        padding: 8px;
+        outline: thick double #32a1ce;
+    
+        &-image {
+            width: 100%;
+            padding-top: 100%;
+            background-position: center;
+            background-size: cover;
+            border-radius: 50%;
+        }
+    }
+
+    .info {
+
+        &-heading {
+            color: #333;
+            margin: 0;
+            font-size: 28px;
+        }
+
+        &-content {
+            padding: 0 16px;
+            font-size: 18px;
+        }
+
+        &-sub-content {
+            margin: 6px 0;
+            span.text {
+                font-weight: bold;
+            }
+        }
+
+        &-my-videos-list {
+            height: 160px;
+            overflow: auto;
+            list-style-type: '🥢 ';
+        }
+    }
+}

@@ -19,7 +19,7 @@ body
             #navbarSupportedContent.collapse.navbar-collapse
                 ul.navbar-nav.ml-auto
                     li.nav-item.active
-                        a.nav-link(href='/my-videos') My Videos
+                        a.nav-link(href='/user/my-videos') My Videos
                     if !user
                         li.nav-item
                             a.nav-link(href='/auth/login') Login
@@ -28,6 +28,8 @@ body
                     if user
                         li.nav-item
                             a.nav-link(href='/auth/log-out') Log out
+                        li.nav-item
+                            a.nav-link(href='/user/profile') Profile
 
     .container
         block content

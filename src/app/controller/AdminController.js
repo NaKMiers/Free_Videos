@@ -28,13 +28,11 @@ class AuthController {
     deleteUserForce = async function(req, res, next) {
         let user = await User.find({ _id: req.params.userId})
         let avatar = user[0].avatar.split('\\')[1]
-        console.log(avatar)
 
         User.deleteOne({ _id: req.params.userId })
             .then(() => {
                 fs.unlink('src/public/uploads/' + avatar, function (err) {
                     if (err) console.log(err)
-                    console.log('File deleted!')
                 })
                 res.redirect('back')
             })
@@ -43,7 +41,6 @@ class AuthController {
 
     // [POST] /admin/users/handle-form-action
     handleFormActionUser(req, res, next) {
-        console.log(req.body)
         switch (req.body.action) {
             case 'delete':
                 let userIds = req.body.userIds
@@ -55,7 +52,6 @@ class AuthController {
                         .then(() => {
                             fs.unlink('src/public/uploads/' + avatar, function (err) {
                                 if (err) console.log(err)
-                                console.log('File deleted!')
                             })
                         })
                         .catch(next)

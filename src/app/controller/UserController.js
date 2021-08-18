@@ -1,24 +1,58 @@
 const User = require('../models/userModel')
 const Video = require('../models/videoModel')
 
+const md5 = require('md5')
+const fs = require('fs')
+
 class MyVideoController {
-    // [GET] /my-videos
-    index(req, res, next) {
+    // [GET] /user/profile
+    showProfile(req, res, next) {
         let user = res.locals.user
-        User.find({ _id: user._id })
-            .then(user => res.render('my-videos/my-videos', { user: user[0] }))
+        User.find({})
+            .then(users => {
+                res.render('user/my-profile', { users, user })
+            })
+    } 
+
+    // [PUT] /user/profile/save
+    saveProfile(req, res, next) {
+        let user = res.locals.user
+        let values = req.body
+
+        let avatar = user.avatar.split('\\')[1]
+        fs.unlink('src/public/uploads/' + avatar, function (err) {
+            if (err) console.log(err)
+        })
+
+        let userDataObject = {
+            name: values.name.trim(),
+            username: values.username.trim(),
+            email: values.email.trim(),
+            password: md5(values.password),
+            avatar: '/' + req.file.path.split('\\').splice(2).join('\\')
+        }
+
+        User.updateOne({ _id: user._id }, userDataObject)
+            .then(() => res.redirect('back'))
     }
 
-    // [GET] /my-videos/view/:slug
+    // [GET] /user/my-videos
+    showMyVideo(req, res, next) {
+        let user = res.locals.user
+        User.find({ _id: user._id })
+            .then(user => res.render('user/my-videos', { user: user[0] }))
+    }
+
+    // [GET] /user/my-videos/view/:slug
     view(req, res, next) {
         let user = res.locals.user
         let myVideos = user.myVideos
         let video = myVideos.find(video => video.slug == req.params.slug)
         
-        res.render('my-videos/my-view', { video })
+        res.render('user/my-view', { video })
     }
 
-    // [PUT] /my-videos/add/:videoId
+    // [PUT] /user/my-videos/add/:videoId
     addVideo = async function(req, res, next) {
         let user = res.locals.user
         let videoData = await Video.find({ _id: req.params.videoId })
@@ -37,7 +71,7 @@ class MyVideoController {
             .then(() => res.redirect('back'))
     }
 
-    // [PUT] /my-videos/remove/:index
+    // [PUT] /user/my-videos/remove/:index
     removeVideo = async function(req, res, next) {
         let user = res.locals.user
         let index = req.params.index

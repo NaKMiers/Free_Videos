@@ -16,7 +16,7 @@ async function LoginValidate(req, res, next) {
             res.cookie('userId', user._id, {
                 signed: true,
             })
-            res.redirect('/my-videos')
+            res.redirect('/user/my-videos')
         } else {
             errors.push({ passError: '❌ Password is invalid ❌' })
             res.render('auth/login', { errors, values })

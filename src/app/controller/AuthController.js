@@ -40,7 +40,7 @@ class AuthController {
                             res.redirect('/')
                         })
                 })
-                .catch(error => console.log(error))
+                .catch(next())
         }
     }
 }
