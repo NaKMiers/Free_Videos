@@ -8,8 +8,9 @@ const methodOverride = require('method-override')
 const route = require('./routes')
 const db = require('./config/db')
 const cookieParser = require('cookie-parser')
+const SortMiddleware = require('./app/middlewares/SortMiddleware')
 
-// express instance
+// EXPRESS INSTANCE
 const app = express()
 
 // connect database
@@ -31,6 +32,9 @@ app.use(bodyParser.json())
 
 // cookie parser
 app.use(cookieParser(process.env.SESSION_SECRET))
+
+// apply sort middleware
+app.use(SortMiddleware)
 
 // routes
 route(app)

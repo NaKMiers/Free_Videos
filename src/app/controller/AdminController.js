@@ -1,3 +1,5 @@
+const fs = require('fs')
+
 const User = require('../models/userModel')
 const Video = require('../models/videoModel')
 
@@ -8,15 +10,75 @@ class AuthController {
         res.render('admin/admin')
     }
 
+    // --------------------------------------------------------------------------------
+
     // [GET] /admin/users
     showUsers(req, res, next) {
-        User.find({})
+        let usersQuery = User.find({})
+        if (req.query.hasOwnProperty('_sort')) {
+            usersQuery = usersQuery.sort({
+                [req.query.column]: req.query.type
+            })
+        }
+        usersQuery
             .then(users => res.render('admin/admin-users', { users }))
     }
+
+    // [DELETE] /admin/users/delete/:userId/force
+    deleteUserForce = async function(req, res, next) {
+        let user = await User.find({ _id: req.params.userId})
+        let avatar = user[0].avatar.split('\\')[1]
+        console.log(avatar)
+
+        User.deleteOne({ _id: req.params.userId })
+            .then(() => {
+                fs.unlink('src/public/uploads/' + avatar, function (err) {
+                    if (err) console.log(err)
+                    console.log('File deleted!')
+                })
+                res.redirect('back')
+            })
+            .catch(next)
+    }
+
+    // [POST] /admin/users/handle-form-action
+    handleFormActionUser(req, res, next) {
+        console.log(req.body)
+        switch (req.body.action) {
+            case 'delete':
+                let userIds = req.body.userIds
+                userIds.forEach(async function(userId) {
+                    let user = await User.find({ _id: userId })
+                    let avatar = user[0].avatar.split('\\')[1]
+
+                    User.deleteOne({ _id: userId })
+                        .then(() => {
+                            fs.unlink('src/public/uploads/' + avatar, function (err) {
+                                if (err) console.log(err)
+                                console.log('File deleted!')
+                            })
+                        })
+                        .catch(next)
+                })
+                res.redirect('back')
+                break
+            default:
+                res.send('<h1 style="color: #f44335 text-align: center">Action is invalid</h1>')                
+        }
+    }
+
+    // --------------------------------------------------------------------------------
     
     // [GET] /admin/videos
     showVideos(req, res, next) {
-        Promise.all([Video.find({}), Video.countDocumentsDeleted()])
+        let videosQuery = Video.find({})
+        if (req.query.hasOwnProperty('_sort')) {
+            videosQuery = videosQuery.sort({
+                [req.query.column]: req.query.type
+            })
+        }
+
+        Promise.all([videosQuery, Video.countDocumentsDeleted()])
             .then(([videos, deletedCount]) => res.render('admin/admin-videos', { videos, deletedCount }))
             .catch(next)
     }
@@ -78,7 +140,7 @@ class AuthController {
     }
 
     // [POST] /admin/videos/handle-form-action
-    handleFormAction(req, res, next) {
+    handleFormActionVideo(req, res, next) {
         switch (req.body.action) {
             case 'delete':
                 Video.delete({ _id: { $in: req.body.videoIds } })
@@ -98,12 +160,12 @@ class AuthController {
                     .catch(next)
                 break
             default:
-                res.send('<h1 style="color: #f44335; text-align: center">Action is invalid</h1>')                
+                res.send('<h1 style="color: #f44335 text-align: center">Action is invalid</h1>')                
         }
     }
 
     // [POST] /admin/videos/handle-form-action-trash
-    handleFormActionTrash(req, res, next) {
+    handleFormActionTrashVideo(req, res, next) {
         switch (req.body.action) {
             case 'restore':
                 Video.restore({ _id: { $in: req.body.videoIds } })
@@ -116,7 +178,7 @@ class AuthController {
                     .catch(next)
                 break
             default:
-                res.send('<h1 style="color: #f44335; text-align: center">Action is invalid</h1>')                
+                res.send('<h1 style="color: #f44335 text-align: center">Action is invalid</h1>')                
         }
     }
 

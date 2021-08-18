@@ -1,26 +1,76 @@
 extends ../layouts/main
 
 block content
-    h1 Manage Users
-    a(href="/admin") Admin
-    table.mt-4.table
-        thead
-            tr
-            th(scope='col') ID
-            th(scope='col') Avatar
-            th(scope='col') Name
-            th(scope='col') Username
-            th(scope='col', colspan="2") Email
-        tbody
-            each user in users
+    form(name="container-form", method="POST", action="/admin/users/handle-form-action")
+        h1 Manage Users
+        
+        a(href="/admin") <i class="fab fa-vaadin"></i> Admin
+
+        .mt-4.d-flex.align-items-center
+            select.form-control.form-control-sm.checkbox-select-all-options(name='action', required)
+                option(value='') -- Select Action --
+                option(value='delete') Delete
+
+            button.btn.btn-primary.btn-sm.check-all-submit-btn(disabled='') Apply
+
+        mixin sortable(field, sort)
+            - const sortType = field === sort.column ? sort.type : 'default'
+            - const icons = { default: 'fas fa-sort', asc: 'fas fa-sort-amount-down-alt', desc: 'fas fa-sort-amount-up' }
+            - const types = { default: 'desc', asc: 'desc', desc: 'asc' }
+
+            - const icon = icons[sortType]
+            - const type = types[sortType]
+
+            a(href=`?_sort&column=${field}&type=${type}`)
+                i(class=`${icon}`)
+
+        table.mt-4.table
+            thead
                 tr
-                    td= user._id
-                    td
-                        a(href="")
-                            img.avatar(src= user.avatar)
-                    td= user.name
-                    td= user.username
-                    td= user.email
-                    td
-                        <a href="" class="btn btn-link">View PW</a>
-                        <a href="" class="btn btn-link">Delete</a>
+                    th
+                        .form-check
+                            input#checkbox-all.form-check-input(type='checkbox', value='')
+                            label.form-check-label(for='checkbox-all', style="cursor: pointer")
+                    th(scope='col') ID 
+                        +sortable('id', _sort)
+                    th(scope='col') Avatar 
+                        +sortable('avatar', _sort)
+                    th(scope='col') Name 
+                        +sortable('name', _sort)
+                    th(scope='col') Username 
+                        +sortable('username', _sort)
+                    th(scope='col', colspan="2") Email 
+                        +sortable('email', _sort)
+            tbody
+                each user in users
+                    tr
+                        td
+                            input(type="checkbox", name="userIds[]", value= user._id)
+                        td= user._id
+                        td
+                            img.avatar(src= user.avatar, style="margin: auto")
+                        td= user.name
+                        td= user.username
+                        td= user.email
+                        td
+                            .btn.btn-link(title= user.password) View PW
+                            .btn.btn-link(data-toggle="modal", data-id= user._id, data-target="#delete-user-modal") Delete
+    
+    //- confirm delete user
+    #delete-user-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')
+        .modal-dialog(role='document')
+            .modal-content
+                .modal-header
+                    h5#exampleModalLabel.modal-title Delete User
+                    button.close(type='button', data-dismiss='modal', aria-label='Close')
+                        span(aria-hidden='true') &times;
+                .modal-body
+                    | Do you still want to delete this user?
+                .modal-footer
+                    button.btn.btn-info(type='button', data-dismiss='modal') Cancel
+                    button#btn-delete-user.btn.btn-danger(type='button') Delete
+
+    //- hidden form
+    form(name="delete-user-form", method="POST")
+
+    script(src="/js/admin-user.js")

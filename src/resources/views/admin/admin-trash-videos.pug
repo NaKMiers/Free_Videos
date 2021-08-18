@@ -4,7 +4,7 @@ block content
     form(name="container-form", method="POST", action="/admin/videos/handle-form-action-trash")
         h1 Trash
         
-        a(href="/admin/videos") Manage Videos
+        a(href="/admin/videos") Videos <i class="fab fa-youtube"></i>
 
         .mt-4.d-flex.align-items-center
             select.form-control.form-control-sm.checkbox-select-all-options(name='action', required='')
@@ -27,7 +27,7 @@ block content
                     th(scope='col') Description
                     th(scope='col', colspan="2") Video ID
             tbody
-                if videos
+                if videos.length > 0
                     each video in videos
                         tr
                             td
@@ -43,6 +43,10 @@ block content
                             td
                                 .btn.btn-link.btn-restore(data-id= video._id) Restore
                                 .btn.btn-link(data-toggle="modal", data-id= video._id, data-target="#delete-video-modal") Delete
+                else
+                    td(colspan="6").text-center
+                        span Empty trash. 
+                        a(href="/admin/videos") Return manage videos
 
     //- confirm delete performance video
     #delete-video-modal.modal.fade(tabindex='-1', role='dialog', aria-labelledby='exampleModalLabel', aria-hidden='true')

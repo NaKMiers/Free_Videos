@@ -1,40 +1,40 @@
 document.addEventListener('DOMContentLoaded', function() {
-    var videoId
-    var deleteForm = document.forms['delete-video-form']
-    var btnDeleteVideo = document.getElementById('btn-delete-video')
+    var userId
+    var deleteForm = document.forms['delete-user-form']
+    var btnDeleteUser = document.getElementById('btn-delete-user')
     var containerForm = $('form[name="container-form"]')
     var checkboxAll = $('#checkbox-all')
-    var videoItemCheckbox = $('input[name="videoIds[]"]')
+    var userItemCheckbox = $('input[name="userIds[]"]')
     var checkAllSubmitBtn = $('.check-all-submit-btn')
 
     // dialog confirm clicked
-    $('#delete-video-modal').on('show.bs.modal', function (event) {
+    $('#delete-user-modal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget)
-        videoId = button.data('id')
+        userId = button.data('id')
     })
 
-    // delete video button clicked
-    btnDeleteVideo.onclick = function() {
-        deleteForm.action = '/admin/videos/delete/' + videoId + '?_method=DELETE' 
+    // delete user button clicked
+    btnDeleteUser.onclick = function() {
+        deleteForm.action = '/admin/users/delete/' + userId + '/force?_method=DELETE' 
         deleteForm.submit()
     }
 
     // checkboxAll changed
     checkboxAll.change(function() {
         var isCheckBoxAll = $(this).prop('checked')
-        videoItemCheckbox.prop('checked', isCheckBoxAll)
+        userItemCheckbox.prop('checked', isCheckBoxAll)
         renderCheckAllSubmitBtn()
     })
 
-    // videos item checkbox changed
-    videoItemCheckbox.change(function() {
-        var isCheckBoxAll = videoItemCheckbox.length === $('input[name="videoIds[]"]:checked').length
+    // users item checkbox changed
+    userItemCheckbox.change(function() {
+        var isCheckBoxAll = userItemCheckbox.length === $('input[name="userIds[]"]:checked').length
         renderCheckAllSubmitBtn()
     })
 
     // re-render checkAllSubmitBtn
     function renderCheckAllSubmitBtn() {
-        var checkedCount = $('input[name="videoIds[]"]:checked').length
+        var checkedCount = $('input[name="userIds[]"]:checked').length
         if (checkedCount > 0) {
             checkAllSubmitBtn.attr('disabled', false)
         } else {
