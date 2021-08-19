@@ -10,6 +10,9 @@ function route(app) {
     app.use('/auth', authRouter)
     app.use('/user/', authMiddleware.requireAuth, userRouter)
     app.use('/admin', adminRouter)
+    app.use('/', (req, res) => {
+        res.render('404.pug')
+    })
 }
 
 module.exports = route

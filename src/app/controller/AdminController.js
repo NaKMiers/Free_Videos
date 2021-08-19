@@ -88,9 +88,11 @@ class AuthController {
     addVideo = async function(req, res, next) {
         let newVideoObjectData = await addVideoValidate(req, res, next)
 
-        const newVideo = new Video(newVideoObjectData)
-        newVideo.save()
-            .then(() => res.redirect('/admin/videos'))
+        if (newVideoObjectData) {
+            const newVideo = new Video(newVideoObjectData)
+            newVideo.save()
+                .then(() => res.redirect('/admin/videos'))
+        }
     }
 
     // [GET] /admin/edit/:videoId
