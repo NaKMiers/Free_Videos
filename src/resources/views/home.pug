@@ -15,3 +15,22 @@ block content
                             p.card-description.card-text(title= video.description)= video.description
                             a.btn.btn-primary(href='/user/my-videos/add/' + video._id + '#' + video._id) Add to My Videos
     
+    if pagination.length > 1
+        nav.nav-pagination(aria-label='Page navigation example')
+            ul.pagination.pagination-list
+
+                if curPage != 1
+                    li.page-item
+                        a.page-link(href='?page=' + (curPage - 1)) Previous
+                
+                each page in pagination
+                    if page == curPage
+                        li.page-item
+                            a.page-link.bg-success(href='?page=' + page, style="color: #fff")= page
+                    else
+                        li.page-item
+                            a.page-link(href='?page=' + page)= page
+
+                if curPage != totalPage
+                    li.page-item
+                        a.page-link(href='?page=' + (curPage + 1)) Next

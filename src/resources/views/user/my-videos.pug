@@ -2,19 +2,39 @@ extends ../layouts/main
 
 block content
     h1 My Videos
-    if user.myVideos.length > 0
+    if videos.length > 0
         .row
             -var index = 0
-            each myVideo in user.myVideos
+            each video in videos
                 .col-sm-6.col-lg-3.mt-4
                     .card(style="height: 100%")
-                        a.thumbnail-card(href='/user/my-videos/view/' + myVideo.slug, style="background-image: url('https://img.youtube.com/vi/" + myVideo.videoId + "/sddefault.jpg')")
+                        a.thumbnail-card(href='/user/my-videos/view/' + video.slug, style="background-image: url('https://img.youtube.com/vi/" + video.videoId + "/sddefault.jpg')")
                         .card-body
-                            a(href='/user/my-videos/view/' + myVideo.slug)
-                                h5.card-title(title= myVideo.title)= myVideo.title
-                            p.card-description.card-text(title= myVideo.description)= myVideo.description
+                            a(href='/user/my-videos/view/' + video.slug)
+                                h5.card-title(title= video.title)= video.title
+                            p.card-description.card-text(title= video.description)= video.description
                             a.btn.btn-primary.float-right(href='/user/my-videos/remove/' + index) Remove
-                            a.btn.btn-primary.text-light(href='/user/my-videos/view/' + myVideo.slug)= ++index
+                            a.btn.btn-primary.text-light(href='/user/my-videos/view/' + video.slug)= ++index
     else
         p.mt-4.text-center You haven't added any videos yet. 
             a(href="/") Return Home
+
+    if pagination.length > 1
+        nav.nav-pagination(aria-label='Page navigation example')
+            ul.pagination.pagination-list
+
+                if curPage != 1
+                    li.page-item
+                        a.page-link(href='?page=' + (curPage - 1)) Previous
+                
+                each page in pagination
+                    if page == curPage
+                        li.page-item
+                            a.page-link.bg-success(href='?page=' + page, style="color: #fff")= page
+                    else
+                        li.page-item
+                            a.page-link(href='?page=' + page)= page
+
+                if curPage != totalPage
+                    li.page-item
+                        a.page-link(href='?page=' + (curPage + 1)) Next

@@ -4,6 +4,8 @@ const Video = require('../models/videoModel')
 const md5 = require('md5')
 const fs = require('fs')
 
+const videoPagination = require('../../util/video-pagination')
+
 class MyVideoController {
     // [GET] /user/profile
     showProfile(req, res, next) {
@@ -48,11 +50,21 @@ class MyVideoController {
             .then(() => res.redirect('back'))
     }
 
+    // -----------------------------------------------------------------------------
+
     // [GET] /user/my-videos
-    showMyVideo(req, res, next) {
+    showMyVideo = async function(req, res, next) {
         let user = res.locals.user
-        User.find({ _id: user._id })
-            .then(user => res.render('user/my-videos', { user: user[0] }))
+        let thisUser = await User.find({ _id: user._id })
+
+        let [ videoAfterSlice, pagination, totalPage, curPage ] = videoPagination(req, res, next, thisUser[0].myVideos, 8, 5)
+        
+        res.render('user/my-videos', {
+            videos: videoAfterSlice,
+            pagination,
+            totalPage,
+            curPage
+        })
     }
 
     // [GET] /user/my-videos/view/:slug
